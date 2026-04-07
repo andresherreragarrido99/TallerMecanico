@@ -21,13 +21,13 @@ public class Revision {
     private int horas;
     private float precioMaterial;
 
-    public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
+    public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio, int horas, float precioMaterial) {
         setCliente(cliente);
         setVehiculo(vehiculo);
         setFechaInicio(fechaInicio);
         fechaFin = null;
-        horas = 0;
-        precioMaterial = 0;
+        this.horas = 0;
+        this.precioMaterial = 0;
     }
 
     public Revision(Revision revision) {
@@ -75,7 +75,7 @@ public class Revision {
         return vehiculo;
     }
 
-    public LocalDate getFechaInicio() {
+    public static LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
