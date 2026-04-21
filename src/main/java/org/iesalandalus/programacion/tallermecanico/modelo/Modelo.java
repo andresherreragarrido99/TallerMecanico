@@ -40,8 +40,8 @@ public class Modelo {
         if (c == null || v == null) {
             throw new TallerMecanicoExcepcion("Cliente o vehículo no existen para la revisión.");
         }
-        Revision nueva = new Revision(c, v, Revision.getFechaInicio(),
-                revision.getHoras(), revision.getPrecioMaterial());
+        Revision nueva = new Revision(c, v, Revision.getFechaInicio()
+        );
         revisiones.insertar(nueva);
     }
 
