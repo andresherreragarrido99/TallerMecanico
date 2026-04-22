@@ -16,12 +16,12 @@ public class Revision {
 
     private Cliente cliente;
     private Vehiculo vehiculo;
-    private LocalDate fechaInicio;
+    private static LocalDate fechaInicio;
     private LocalDate fechaFin;
     private int horas;
     private float precioMaterial;
 
-    public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio, int horas, float precioMaterial) {
+    public Revision(Cliente cliente, Vehiculo vehiculo, LocalDate fechaInicio) {
         setCliente(cliente);
         setVehiculo(vehiculo);
         setFechaInicio(fechaInicio);
@@ -127,13 +127,16 @@ public class Revision {
 
         this.fechaFin = fechaFin;
     }
+    public boolean estaCerrada() {
+        return fechaFin != null;
+    }
 
     public float getPrecio() {
         if (fechaFin == null) {
             return 0;
         }
 
-        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) + 1;
+        long dias = ChronoUnit.DAYS.between(fechaInicio, fechaFin) ;
         return horas * PRECIO_HORA + dias * PRECIO_DIA + precioMaterial * 1.5f;
     }
 
