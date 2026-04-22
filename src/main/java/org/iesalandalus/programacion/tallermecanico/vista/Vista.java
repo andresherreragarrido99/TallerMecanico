@@ -54,19 +54,19 @@ public class Vista {
     private void anadirCliente() throws TallerMecanicoExcepcion {
         Consola.mostrarCabecera("Añadir cliente");
         Cliente cliente = Consola.leerCliente();
-        controlador.anadir(cliente);
+        controlador.insertar(cliente);
     }
 
     private void anadirVehiculo() {
         Consola.mostrarCabecera("Añadir vehículo");
         Vehiculo vehiculo = Consola.leerVehiculo();
-        controlador.anadir(vehiculo);
+        controlador.insertar(vehiculo);
     }
 
     private void anadirRevision() throws TallerMecanicoExcepcion {
         Consola.mostrarCabecera("Añadir revisión");
         Revision revision = Consola.leerRevision();
-        controlador.anadir(revision);
+        controlador.insertar(revision);
     }
 
     private void listarClientes() {

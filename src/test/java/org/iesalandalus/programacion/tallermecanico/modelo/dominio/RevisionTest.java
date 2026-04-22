@@ -37,7 +37,7 @@ class RevisionTest {
     void init() {
         creaComportamientoCliente();
         creaComportamientoVehiculo();
-        revision = new Revision(cliente, vehiculo, ayer, revision.getHoras(), revision.getPrecioMaterial());
+        revision = new Revision(cliente, vehiculo, ayer);
     }
 
     private void creaComportamientoVehiculo() {
@@ -65,31 +65,31 @@ class RevisionTest {
         assertEquals(0, revision.getHoras());
         assertEquals(0, revision.getPrecioMaterial());
         assertEquals(0, revision.getPrecio());
-        Revision revistmemanaPasada = new Revision(cliente, vehiculo, semanaPasada, revision.getHoras(), revision.getPrecioMaterial());
+        Revision revistmemanaPasada = new Revision(cliente, vehiculo, semanaPasada);
         assertEquals(semanaPasada, revistmemanaPasada.getFechaInicio());
     }
 
     @Test
     void constructorClienteNuloTurismoValidoFechaInicioValidaLanzaExcepcion() {
-        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(null, vehiculo, hoy, revision.getHoras(), revision.getPrecioMaterial()));
+        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(null, vehiculo, hoy));
         assertEquals("El cliente no puede ser nulo.", npe.getMessage());
     }
 
     @Test
     void constructorClienteValidoTurismoNuloFechaInicioValidaLanzaExcepcion() {
-        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(cliente, null, hoy, revision.getHoras(), revision.getPrecioMaterial()));
+        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(cliente, null, hoy));
         assertEquals("El vehículo no puede ser nulo.", npe.getMessage());
     }
 
     @Test
     void constructorClienteValidoTurismoValidoFechaInicioNulaLanzaExcepcion() {
-        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(cliente, vehiculo, null, revision.getHoras(), revision.getPrecioMaterial()));
+        NullPointerException npe = assertThrows(NullPointerException.class, () -> new Revision(cliente, vehiculo, null));
         assertEquals("La fecha de inicio no puede ser nula.", npe.getMessage());
     }
 
     @Test
     void constructorClienteValidoTurismoValidoFechaInicioNoValidaLanzaExcepcion() {
-        IllegalArgumentException iae = assertThrows(IllegalArgumentException.class, () -> new Revision(cliente, vehiculo, manana, revision.getHoras(), revision.getPrecioMaterial()));
+        IllegalArgumentException iae = assertThrows(IllegalArgumentException.class, () -> new Revision(cliente, vehiculo, manana));
         assertEquals("La fecha de inicio no puede ser futura.", iae.getMessage());
     }
 
@@ -194,7 +194,7 @@ class RevisionTest {
             "0, 5, 5, 157.5", "1, 5, 5, 167.5", "5, 5, 5, 207.5", "0, 10, 10, 315.0", "1, 10, 10, 325.0", "5, 10, 10, 365.0",
             "0, 10, 100, 450.0", "1, 10, 100, 460.0", "5, 10, 100, 500.0"})
     void getPrecioCalculaCorrectamentePrecio(int dias, int horas, float precioMaterial, float precio) {
-        Revision revistmemanaPasada = new Revision(cliente, vehiculo, semanaPasada, revision.getHoras(), revision.getPrecioMaterial());
+        Revision revistmemanaPasada = new Revision(cliente, vehiculo, semanaPasada);
         assertDoesNotThrow(() -> revistmemanaPasada.anadirHoras(horas));
         assertDoesNotThrow(() -> revistmemanaPasada.anadirPrecioMaterial(precioMaterial));
         LocalDate fechaFin = semanaPasada.plusDays(dias);
@@ -204,7 +204,7 @@ class RevisionTest {
 
     @Test
     void equalsHashCodeSeBasanSoloEnClienteVehiculoFechaInicio() {
-        Revision otraRevision = new Revision(cliente, vehiculo, ayer, revision.getHoras(), revision.getPrecioMaterial());
+        Revision otraRevision = new Revision(cliente, vehiculo, ayer);
         assertEquals(revision, otraRevision);
         assertEquals(revision.hashCode(), otraRevision.hashCode());
         assertDoesNotThrow(() -> otraRevision.cerrar(hoy));
