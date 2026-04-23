@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.tallermecanico.modelo;
 
+import org.iesalandalus.programacion.tallermecanico.modelo.cascada.ModeloCascada;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
@@ -19,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class ModeloTest {
+class ModeloCascadaTest {
 
     @Mock
     private static Clientes clientes;
@@ -28,7 +29,7 @@ class ModeloTest {
     @Mock
     private static Revisiones revisiones;
     @InjectMocks
-    private Modelo modelo ;
+    private ModeloCascada modeloCascada;
 
     private static Cliente cliente;
     private static Vehiculo vehiculo;
@@ -80,19 +81,19 @@ class ModeloTest {
 
     @Test
     void terminarNoHaceNada() {
-        assertDoesNotThrow(() -> modelo.terminar());
+        assertDoesNotThrow(() -> modeloCascada.terminar());
     }
 
     @Test
     void insertarClienteLlamaClientesInsertar() {
-        assertDoesNotThrow(() -> modelo.insertar(cliente));
+        assertDoesNotThrow(() -> modeloCascada.insertar(cliente));
         assertDoesNotThrow(() -> verify(clientes).insertar(any(Cliente.class)));
         assertDoesNotThrow(() -> verify(clientes, times(0)).insertar(cliente));
     }
 
     @Test
     void insertarVehiculoLlamaVehiculosInsertar() {
-        assertDoesNotThrow(() -> modelo.insertar(vehiculo));
+        assertDoesNotThrow(() -> modeloCascada.insertar(vehiculo));
         assertDoesNotThrow(() -> verify(vehiculos).insertar(vehiculo));
     }
 
@@ -101,7 +102,7 @@ class ModeloTest {
         InOrder orden = inOrder(clientes, vehiculos, revisiones);
         when(clientes.buscar(cliente)).thenReturn(cliente);
         when(vehiculos.buscar(vehiculo)).thenReturn(vehiculo);
-        assertDoesNotThrow(() -> modelo.insertar(revision));
+        assertDoesNotThrow(() -> modeloCascada.insertar(revision));
         orden.verify(clientes).buscar(cliente);
         orden.verify(vehiculos).buscar(vehiculo);
         assertDoesNotThrow(() -> orden.verify(revisiones).insertar(any(Revision.class)));
@@ -110,51 +111,51 @@ class ModeloTest {
 
     @Test
     void buscarClienteLlamaClientesBuscar() {
-        assertDoesNotThrow(() -> modelo.insertar(cliente));
+        assertDoesNotThrow(() -> modeloCascada.insertar(cliente));
         when(clientes.buscar(cliente)).thenReturn(cliente);
-        Cliente clienteEncontrado = modelo.buscar(cliente);
+        Cliente clienteEncontrado = modeloCascada.buscar(cliente);
         verify(clientes).buscar(cliente);
         assertNotSame(cliente, clienteEncontrado);
     }
 
     @Test
     void buscarVehiculoLlamaVehiculosBuscar() {
-        assertDoesNotThrow(() -> modelo.insertar(vehiculo));
+        assertDoesNotThrow(() -> modeloCascada.insertar(vehiculo));
         when(vehiculos.buscar(vehiculo)).thenReturn(vehiculo);
-        modelo.buscar(vehiculo);
+        modeloCascada.buscar(vehiculo);
         verify(vehiculos).buscar(vehiculo);
     }
 
     @Test
     void buscarRevisionLlamaRevisionesBuscar() {
-        assertDoesNotThrow(() -> modelo.insertar(revision));
+        assertDoesNotThrow(() -> modeloCascada.insertar(revision));
         when(revisiones.buscar(revision)).thenReturn(revision);
-        Revision revisionEncontrada = modelo.buscar(revision);
+        Revision revisionEncontrada = modeloCascada.buscar(revision);
         verify(revisiones).buscar(revision);
         assertNotSame(revision, revisionEncontrada);
     }
 
     @Test
     void modificarClienteLlamaClientesModificar() {
-        assertDoesNotThrow(() -> modelo.modificar(cliente, "Patricio Estrella", "950123456"));
+        assertDoesNotThrow(() -> modeloCascada.modificar(cliente, "Patricio Estrella", "950123456"));
         assertDoesNotThrow(() -> verify(clientes).modificar(cliente, "Patricio Estrella", "950123456"));
     }
 
     @Test
     void anadirHorasLlamaRevisionesAnadirHoras() {
-        assertDoesNotThrow(() -> modelo.anadirHoras(revision, 10));
+        assertDoesNotThrow(() -> modeloCascada.anadirHoras(revision, 10));
         assertDoesNotThrow(() -> verify(revisiones).anadirHoras(revision, 10));
     }
 
     @Test
     void anadirPrecioMateriaLlamaRevisionesAnadirPrecioMaterial() {
-        assertDoesNotThrow(() -> modelo.anadirPrecioMaterial(revision, 100f));
+        assertDoesNotThrow(() -> modeloCascada.anadirPrecioMaterial(revision, 100f));
         assertDoesNotThrow(() -> verify(revisiones).anadirPrecioMaterial(revision, 100f));
     }
 
     @Test
     void cerrarLlamaRevisionesCerrar() {
-        assertDoesNotThrow(() -> modelo.cerrar(revision, LocalDate.now()));
+        assertDoesNotThrow(() -> modeloCascada.cerrar(revision, LocalDate.now()));
         assertDoesNotThrow(() -> verify(revisiones).cerrar(revision, LocalDate.now()));
     }
 
@@ -162,7 +163,7 @@ class ModeloTest {
     void borrarClienteLlamaRevisionesGetClienteRevisionesBorrarClientesBorrar() {
         simularClientesConRevisiones();
         InOrder orden = inOrder(clientes, revisiones);
-        assertDoesNotThrow(() -> modelo.borrar(cliente));
+        assertDoesNotThrow(() -> modeloCascada.borrar(cliente));
         orden.verify(revisiones).get(cliente);
         for (Revision revision : revisiones.get(cliente)) {
             assertDoesNotThrow(() -> orden.verify(revisiones).borrar(revision));
@@ -178,7 +179,7 @@ class ModeloTest {
     void borrarVehiculoLlamaRevisionesGetVehiculoRevisionesBorrarVehiculosBorrar() {
         simularVehiculosConRevisiones();
         InOrder orden = inOrder(vehiculos, revisiones);
-        assertDoesNotThrow(() -> modelo.borrar(vehiculo));
+        assertDoesNotThrow(() -> modeloCascada.borrar(vehiculo));
         orden.verify(revisiones).get(vehiculo);
         for (Revision revision : revisiones.get(vehiculo)) {
             assertDoesNotThrow(() -> orden.verify(revisiones).borrar(revision));
@@ -192,14 +193,14 @@ class ModeloTest {
 
     @Test
     void borrarRevisionLlamaRevisionesBorrar() {
-        assertDoesNotThrow(() -> modelo.borrar(revision));
+        assertDoesNotThrow(() -> modeloCascada.borrar(revision));
         assertDoesNotThrow(() -> verify(revisiones).borrar(revision));
     }
 
     @Test
     void getClientesLlamaClientesGet() {
         when(clientes.get()).thenReturn(new ArrayList<>(List.of(cliente)));
-        List<Cliente> clientesExistentes = modelo.getClientes();
+        List<Cliente> clientesExistentes = modeloCascada.getClientes();
         verify(clientes).get();
         assertNotSame(cliente, clientesExistentes.get(0));
     }
@@ -207,7 +208,7 @@ class ModeloTest {
     @Test
     void getVehiculosLlamaVehiculosGet() {
         when(vehiculos.get()).thenReturn(new ArrayList<>(List.of(vehiculo)));
-        List<Vehiculo> vehiculosExistentes = modelo.getVehiculos();
+        List<Vehiculo> vehiculosExistentes = modeloCascada.getVehiculos();
         verify(vehiculos).get();
         assertSame(vehiculo, vehiculosExistentes.get(0));
     }
@@ -215,7 +216,7 @@ class ModeloTest {
     @Test
     void getRevisionesLlamaRevisionesGet() {
         when(revisiones.get()).thenReturn(new ArrayList<>(List.of(revision)));
-        List<Revision> revisionesExistentes = modelo.getRevisiones();
+        List<Revision> revisionesExistentes = modeloCascada.getRevisiones();
         verify(revisiones).get();
         assertNotSame(revision, revisionesExistentes.get(0));
     }
@@ -223,7 +224,7 @@ class ModeloTest {
     @Test
     void getRevisionesClienteLlamaRevisionesGetCliente() {
         when(revisiones.get(cliente)).thenReturn(new ArrayList<>(List.of(revision)));
-        List<Revision> revisionesCliente = modelo.getRevisiones(cliente);
+        List<Revision> revisionesCliente = modeloCascada.getRevisiones(cliente);
         verify(revisiones).get(cliente);
         assertNotSame(revision,revisionesCliente.get(0));
     }
@@ -231,7 +232,7 @@ class ModeloTest {
     @Test
     void getRevisionesVehiculoLlamaRevisionesGetVehiculo() {
         when(revisiones.get(vehiculo)).thenReturn(new ArrayList<>(List.of(revision)));
-        List<Revision> revisionesVehiculo = modelo.getRevisiones(vehiculo);
+        List<Revision> revisionesVehiculo = modeloCascada.getRevisiones(vehiculo);
         verify(revisiones).get(vehiculo);
         assertNotSame(revision,revisionesVehiculo.get(0));
     }
