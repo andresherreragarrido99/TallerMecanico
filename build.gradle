@@ -4,7 +4,6 @@ plugins {
 }
 
 group = 'org.iesalandalus.programacion.tallermecanico'
-version = '1.0'
 
 repositories {
     mavenCentral()
