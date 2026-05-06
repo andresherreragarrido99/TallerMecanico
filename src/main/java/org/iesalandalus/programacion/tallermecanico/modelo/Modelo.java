@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.tallermecanico.modelo;
 
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.Clientes;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.Revisiones;
@@ -9,6 +10,7 @@ import org.iesalandalus.programacion.tallermecanico.modelo.negocio.Vehiculos;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Modelo {
 
@@ -110,5 +112,9 @@ public class Modelo {
 
     public List<Revision> getRevisiones(Vehiculo vehiculo) {
         return revisiones.get(vehiculo);
+    }
+
+    public Map<TipoTrabajo, Integer> getEstadisticasMensuales(int mes) {
+        return revisiones.getEstadisticasMensuales(mes);
     }
 }

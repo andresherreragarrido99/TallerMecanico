@@ -4,6 +4,8 @@ import org.iesalandalus.programacion.tallermecanico.controlador.Controlador;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Revision;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo;
+import java.util.Map;
 import org.iesalandalus.programacion.tallermecanico.modelo.TallerMecanicoExcepcion;
 
 public class Vista {
@@ -30,6 +32,14 @@ public class Vista {
         System.out.println("Hasta pronto.");
     }
 
+    public int leerMes() {
+        return Consola.leerMes();
+    }
+
+    public void mostrarEstadisticasMensuales(Map<TipoTrabajo, Integer> estadisticas) {
+        Consola.mostrarEstadisticasMensuales(estadisticas);
+    }
+
     private void ejecutar(Opcion opcion) {
         try {
             switch (opcion) {
@@ -43,6 +53,7 @@ public class Vista {
                 case BORRAR_CLIENTE -> borrarCliente();
                 case BORRAR_VEHICULO -> borrarVehiculo();
                 case BORRAR_REVISION -> borrarRevision();
+                case MOSTRAR_ESTADISTICAS_MENSUALES -> mostrarEstadisticasMensuales();
                 case SALIR -> terminar();
                 default -> System.out.println("Opción aún no implementada.");
             }
@@ -102,5 +113,10 @@ public class Vista {
         Consola.mostrarCabecera("Borrar revisión");
         Revision revision = Consola.leerRevision();
         controlador.borrar(revision);
+    }
+
+    private void mostrarEstadisticasMensuales() {
+        int mes = leerMes();
+        mostrarEstadisticasMensuales(controlador.getEstadisticasMensuales(mes));
     }
 }

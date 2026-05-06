@@ -20,7 +20,8 @@ public enum Opcion {
     ANADIR_VEHICULO(13, "Añadir vehículo"),
     BORRAR_REVISION(14, "Borrar revisión"),
     BORRAR_VEHICULO(15, "Borrar vehículo"),
-    SALIR(0, "Salir");
+    SALIR(0, "Salir"),
+    MOSTRAR_ESTADISTICAS_MENSUALES(24, "Mostrar estadísticas mensuales");
 
 
     private static final Map<Integer, Opcion> MAPA_OPCIONES = new HashMap<>();

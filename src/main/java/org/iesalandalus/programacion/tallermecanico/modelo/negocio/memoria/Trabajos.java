@@ -3,10 +3,14 @@ package org.iesalandalus.programacion.tallermecanico.modelo.negocio.memoria;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Trabajo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.modelo.negocio.ITrabajos;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo;
+
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class Trabajos implements ITrabajos {
 
@@ -88,6 +92,26 @@ public class Trabajos implements ITrabajos {
             throw new IllegalArgumentException("ERROR: No existe ningún trabajo abierto para dicho vehículo.");
         }
         encontrado.cerrar(fechaFin);
+    }
+
+    @Override
+    public Map<TipoTrabajo, Integer> getEstadisticasMensuales(int mes) {
+        Map<TipoTrabajo, Integer> estadisticas = inicializarEstadisticas();
+        for (Trabajo trabajo : coleccionTrabajos) {
+            if (trabajo.getFechaInicio().getMonthValue() == mes) {
+                TipoTrabajo tipo = trabajo.getTipoTrabajo();
+                estadisticas.put(tipo, estadisticas.get(tipo) + 1);
+            }
+        }
+        return estadisticas;
+    }
+
+    private Map<TipoTrabajo, Integer> inicializarEstadisticas() {
+        Map<TipoTrabajo, Integer> mapa = new EnumMap<>(TipoTrabajo.class);
+        for (TipoTrabajo tipo : TipoTrabajo.values()) {
+            mapa.put(tipo, 0);
+        }
+        return mapa;
     }
 
     private Trabajo buscarTrabajoAbierto(Vehiculo vehiculo) {

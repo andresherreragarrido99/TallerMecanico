@@ -111,4 +111,22 @@ public class Consola {
     public static void mostrarRevisiones(java.util.List<Revision> revisiones) {
         revisiones.forEach(System.out::println);
     }
+
+    public static int leerMes() {
+        int mes;
+        do {
+            mes = leerEntero("Introduce el número de mes (1-12): ");
+            if (mes < 1 || mes > 12) {
+                System.out.println("Mes no válido. Debe estar entre 1 y 12.");
+            }
+        } while (mes < 1 || mes > 12);
+        return mes;
+    }
+
+    public static void mostrarEstadisticasMensuales(java.util.Map<org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo, Integer> estadisticas) {
+        System.out.println("Estadísticas mensuales por tipo de trabajo:");
+        estadisticas.forEach((tipo, cantidad) ->
+            System.out.printf("%s: %d\n", tipo, cantidad)
+        );
+    }
 }

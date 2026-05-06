@@ -8,8 +8,10 @@ import org.iesalandalus.programacion.tallermecanico.vista.FabricaVista;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Cliente;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Vehiculo;
 import org.iesalandalus.programacion.tallermecanico.modelo.dominio.Trabajo;
+import org.iesalandalus.programacion.tallermecanico.modelo.dominio.TipoTrabajo;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Controlador {
@@ -101,5 +103,9 @@ public class Controlador {
 
     public List<Trabajo> getTrabajos(Vehiculo vehiculo) {
         return modelo.getTrabajos(vehiculo);
+    }
+
+    public Map<TipoTrabajo, Integer> getEstadisticasMensuales(int mes) {
+        return modelo.getEstadisticasMensuales(mes);
     }
 }
